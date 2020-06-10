@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="login-page.css">
+<script defer src="login-page.js"></script>
+<main id="main-holder">
+<h1 id="login-header">Login</h1>
+
+
+
+<form action="/validate-sign-up" method="post"> 
+  <input type="text" name="username" class="login-form-field" placeholder="Username">
+  <input type="password" name="password" class="login-form-field" placeholder="Password">
+  <p>
+  <input type="email" name="email" class="login-form-field" placeholder="email">
+  <input type="first name" name="first name" class="login-form-field" placeholder="first name">
+  </p>
+  <input type="last name" name="last name" class="login-form-field" placeholder="last name">
+  <input type="phone number" name="phone number" class="login-form-field" placeholder="phone number">
+  <p>
+  <input type="submit" value="Sign-Up" id="login-form-submit">
+  </p>
+  <script type="text/javascript">
+    document.querySelector('form').onsubmit=function(){
+      if(!document.querySelector('input[name="username"]').value){
+        alert('You must provide your username!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="password"]').value){
+        alert('You must provide your password!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="email"]').value){
+        alert('You must provide your email!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="first name"]').value){
+        alert('You must provide your first name!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="last name"]').value){
+        alert('You must provide your last name!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="phone number"]').value){
+        alert('You must provide your phone number!');
+          return false;
+      }
+      return true;
+    }
+  </script>
+</form>
+
+</main>
+
+
+
+{% endblock %}

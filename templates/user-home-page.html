@@ -1,0 +1,201 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h5 style="text-align: right">Logged in user: {{ username }}</h4>
+
+<h1 style="text-align: center">Welcome {{ name }} to your Home Page</h1>
+<h2 style="text-align: center">You can see your balance, stock portfolio and make changes</h2>
+
+
+
+<p>
+<h4 style="text-align: left">Total Account Worth: ${{ total_account_worth }}</h4>
+</p>
+<p>
+<h4 style="text-align: left">Available Funds: ${{ available_balance }}</h4>
+<input type="number" pattern="\d+" name="available_balance" id="available_balance" value="{{ available_balance }}" style="display:none">
+</p>
+<p>
+</p>
+
+<p>
+<h4 style="text-align: left">Stocks Portfolio Worth: ${{ worth_of_stocks }}</h4>    
+</p>
+
+<!-- CSS Code: Place this code in the document's head (between the <head> -- </head> tags) -->
+<style>
+    table.customTable {
+      width: 50%;
+      background-color: #FFFFFF;
+      border-collapse: collapse;
+      border-width: 2px;
+      border-color: #7EA8F8;
+      border-style: solid;
+      color: #000000;
+    }
+    
+    table.customTable td, table.customTable th {
+      border-width: 2px;
+      border-color: #7EA8F8;
+      border-style: solid;
+      padding: 5px;
+    }
+    
+    table.customTable thead {
+      background-color: #7EA8F8;
+    }
+    </style>
+    
+    <form action="/sell_stock" method="post">        
+        <table class="customTable" id="tbl">
+            <thead>    
+                <tr>
+                    <th>Stock ID</th>
+                    <th>Stock Name</th>
+                    <th>Stock Code</th>
+                    <th>Shares Owned</th>
+                    <th>Unit Price</th>
+                    <th>Total Worth</th>
+                    <th>Shares to Sell</th>
+                </tr>
+            </thead>
+            <!--Table head-->
+            <!--Table body-->
+            <tbody>
+            {% for key, value in owned_stocks.items() %}        
+                <tr>
+                    <th scope="row">{{ key }}</th>
+                    <td>{{ value['stock_name'] }}</td>
+                    <td>{{ value['stock_code'] }}</td>
+                    <td>{{ value['num_of_shares'] }}</td>
+                    <td>{{ value['unit_price'] }}</td>
+                    <td>{{ value['worth'] }}</td>     
+                    <td><input type="number" pattern="\d+" name="{{ key }}" id="{{ key }}"></td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        <!--Table body-->
+        </table>
+        <p>
+        <input type="submit" value="Sell">     
+        <input id="username" type="text" name="username" value="{{ username }}" style="display:none">
+        </p>
+        <script type="text/javascript">
+            var i;
+            var table = document.getElementById("tbl");            
+            var username = document.querySelector('input[name="username"]').value;
+            document.querySelector('form').onsubmit=function(){                                 
+                for (i=1;i<table.rows.length; i++)
+                {
+                    var stock_id = window.table.rows[i].cells[0].innerHTML;
+                    var owned_shares = window.table.rows[i].cells[3].innerHTML;
+                    //var tmp = 'input[name="' + stock_id + '"]';
+                    var sell_shares = document.getElementById(stock_id).value;                    
+                    //var sell_shares = document.querySelector(tmp).value;
+                    //alert(sell_shares);
+                    if(sell_shares != null && Number(sell_shares) > owned_shares)
+                    {
+                        alert("You cannot sell more shares than you own") ;
+                        sell_shares = null;
+                        return false;
+                        
+                    }
+                }
+                return true;
+            }
+          </script>  
+    </form>
+
+    <p>
+      <h3 style="text-align: left">Offered Stocks</h3>        
+    </p>
+    
+    <p>
+    <form action="/buy_stock" method="post">        
+       <table class="customTable" id="tb">
+           <thead>    
+             <tr>
+               <th>Stock ID</th>
+               <th>Stock Name</th>
+               <th>Stock Code</th>
+               <th>Unit Price</th>
+               <th>Number of Shares to Buy</th>
+               <th>Funds to Invest</th>
+             </tr>
+           </thead>
+           <!--Table head-->
+           <!--Table body-->
+           <tbody>
+               {% for key, value in available_stocks.items() %}        
+               <tr>
+                 <th scope="row">{{ key }}</th>
+                 <td>{{ value['stock_name'] }}</td>
+                 <td>{{ value['stock_code'] }}</td>
+                 <td>{{ value['unit_price'] }}</td>
+                 <td><input type="number" pattern="\d+" name="{{ key }}2" id="{{ key }}2"></td>
+                 <td></td>
+               </tr>
+               {% endfor %}
+               <tr>
+                <th scope="row">Total Investment</th>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+           </tbody>
+           <!--Table body-->
+         </table>
+         <!--Table-->
+       </p>
+       <p>
+           <input type="submit" value="Buy">     
+           <input id="username" type="text" name="username" value="{{ username }}" style="display:none">
+       </p>
+       <script>           
+           var i;                         
+           var tab = document.getElementById("tb"); 
+           var username = document.querySelector('input[name="username"]').value;
+           var available_balance = document.getElementById("available_balance").value;
+           for (i=1;i<tab.rows.length;i++) 
+           {
+               var a = i + '2';                                               
+               document.getElementById(a).addEventListener("change", calcValue,false);
+           }                        
+           
+           function calcValue()
+           {                           
+              var tab = document.getElementById("tb"); 
+              var i;
+              var total_to_invest=0;
+              var amount;
+              num_of_rows = tab.rows.length;
+              for (i=1;i<num_of_rows;i++)
+              {                
+                var a = i + '2';
+                var unit_price = window.tab.rows[i].cells[3].innerHTML;
+                var buy_shares = document.getElementById(a).value;
+                if(buy_shares != null && Number(buy_shares) > 0)
+                {
+                    amount = buy_shares * unit_price;
+                    window.tab.rows[i].cells[5].innerHTML = amount.toFixed(2);
+                    total_to_invest = total_to_invest + amount;
+                    window.tab.rows[num_of_rows-1].cells[5].innerHTML = "$" + total_to_invest.toFixed(2);
+                    if(Number(total_to_invest) > Number(available_balance))
+                    {
+                        alert("Not enough funds!");
+                    }
+                }
+                else
+                {
+                    window.tab.rows[i].cells[5].innerHTML = "";
+                } 
+              }  
+              return true;            
+           };
+         </script>            
+       </form>        
+
+    </p>
+{% endblock %} 

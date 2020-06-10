@@ -1,0 +1,38 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<h1 style="text-align: center">Welcome to Henry's Investment Co</h1>
+<h2 style="text-align: center">We're thrilled you're here!!</h2>
+<h3 style="text-align: center">If you go elsewhere it will be waste of your time and money :)</h3>
+
+
+<div style="text-align: center">
+    <form action="/login" method="post">   
+        <input type="Submit" value="Login">
+        <script type="text/javascript">
+        
+            document.querySelector('form').onsubmit=function(){               
+                return true;
+            }
+        </script>
+    </form>
+
+</div>
+<p>
+<div style="text-align: center">
+    <form action="/sign-up" method="post">   
+        <input type="Submit" value="Sign-up">
+        <script type="text/javascript">
+        
+            document.querySelector('form').onsubmit=function(){               
+                return true;
+            }
+        </script>
+    </form>
+
+</div>
+</p>
+
+
+{% endblock %}

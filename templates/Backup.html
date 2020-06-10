@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Register for CS</h1>
+<form action="/register" method="post">    
+    <input autocomplete="off" autofocus name="name" placeholder="Name" type="text">
+    <select name="dorm">
+        <option disabled selected value ="">Dorm</option>
+        <option value ="Hornet Village">Hornet Village</option>
+        <option value ="Apartment">Apartment</option>
+        <option value ="Yellow Jacket Place">Yellow Jacket Place</option>  
+    </select> 
+    <input type="Submit" value="Register">
+    <script type="text/javascript">
+    
+        document.querySelector('form').onsubmit=function(){
+            if(!document.querySelector('input').value){
+                alert('You must provide your name!');
+                return false;
+            }
+            else if(!document.querySelector('select').value){
+                alert('You must provide your dorm!');
+                return false;
+            }
+            return true;
+        }
+    </script>
+</form>
+{% endblock %}

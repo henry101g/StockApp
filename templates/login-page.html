@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block body %}
+
+<link rel="stylesheet" href="login-page.css">
+<script defer src="login-page.js"></script>
+<main id="main-holder">
+<h1 id="login-header">Login</h1>
+
+
+
+<form action="/validate-login" method="post"> 
+  <input type="text" autofocus name="username" class="login-form-field" placeholder="Username">
+  <input type="text" name="password" style="-webkit-text-security: circle;" placeholder="Password" >
+  <input type="submit" value="Login">
+  <script type="text/javascript">
+    document.querySelector('form').onsubmit=function(){
+      if(!document.querySelector('input[name="username"]').value){
+        alert('You must provide your username!');
+          return false;
+      }
+      else if(!document.querySelector('input[name="password"]').value){
+        alert('You must provide your password!');
+          return false;
+      }      
+      return true;
+    }
+  </script>
+</form>
+
+</main>
+
+
+{% endblock %}

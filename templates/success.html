@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>Success! You're registered! </h1>
+<h1>Congratulations! Your initial balance is $10,000</h1>
+<div style="text-align: center">
+    <form action="/login" method="post">   
+        <input type="Submit" value="Login">
+        <script type="text/javascript">
+        
+            document.querySelector('form').onsubmit=function(){               
+                return true;
+            }
+        </script>
+    </form>
+
+</div>
+{% endblock %}

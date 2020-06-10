@@ -1,0 +1,23 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h5 style="text-align: right">Logged in user: {{ username }}</h4>
+<p>
+<h1>Success! Your request was successfully processed! </h1>
+</p>
+
+<div style="text-align: center">
+    <form action="/account_view" method="post">   
+        <input type="Submit" value="Back to Account">
+        <input id="username" type="text" name="username" value="{{ username }}" style="display:none">
+        <script type="text/javascript">
+            var username = document.querySelector('input[name="username"]').value;
+            document.querySelector('form').onsubmit=function()
+            {                
+                return true;
+            };
+            return true;
+        </script>
+    </form>
+</div>
+{% endblock %}
