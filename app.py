@@ -4,8 +4,9 @@ from flask import Flask, render_template, request, redirect
 import sqlite3
 from sqlite3 import Error
 import re
-import yfinance as yf
-from yahoo_finance import Share
+#import yfinance as yf
+#from yahoo_finance import Share
+from yahoo_fin import stock_info as si
 
 app=Flask(__name__)
 
@@ -26,9 +27,8 @@ def getStockPrice():
     cursor.execute(query)
     for row in (cursor.fetchall()):
         stock_code=row[0]        
-        yahoo = Share(stock_code)
-        #unit_price=yf.Ticker(stock_code).info['regularMarketPrice']
-        unit_price=yahoo.get_price()
+        unit_price = si.get_live_price(stock_code)
+        
         print("Stock code is: ",stock_code, "price is: ",unit_price)
         query=("update stocks set share_price = " + str(unit_price) + " where stock_code = '" + stock_code + "';")
         cursor.execute(query)
